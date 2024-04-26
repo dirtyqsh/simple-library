@@ -55,6 +55,7 @@ namespace practice3
             this.Name = "MainForm";
             this.Text = "Книги на легкое чтение";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += Form1_FormClosing;
             this.ResumeLayout(false);
 
         }

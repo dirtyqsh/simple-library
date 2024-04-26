@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Unicode;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,11 +15,12 @@ namespace practice3
 {
     public partial class MainForm : Form
     {
+        private Book[] books;
         public MainForm()
         {
             InitializeComponent();
 
-            Book[] books =
+            books = new Book[]
             {
                 new Book()
                 {
@@ -41,6 +45,14 @@ namespace practice3
                 }
             };
 
+            String jsonString = File.ReadAllText("bookList.txt");
+            var options = new JsonSerializerOptions
+            {
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true
+            };
+            books = JsonSerializer.Deserialize<Book[]>(jsonString, options);
+
             for (int i = 0; i < books.Length; i++)
             {
                 Control control = new BookControl(books[i]);
@@ -50,9 +62,21 @@ namespace practice3
             }
         }
 
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            
+        }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var options = new JsonSerializerOptions
+            {
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+                WriteIndented = true
+            };
+            String jsonString = JsonSerializer.Serialize(books, options);
+            File.WriteAllText("bookList.txt", jsonString);
         }
 
     }

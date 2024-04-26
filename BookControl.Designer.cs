@@ -38,6 +38,7 @@ namespace practice3
             // 
             // CoverPictureBox
             // 
+            this.CoverPictureBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.CoverPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.CoverPictureBox.Location = new System.Drawing.Point(3, 3);
             this.CoverPictureBox.Name = "CoverPictureBox";
